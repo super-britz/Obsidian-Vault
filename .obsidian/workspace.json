@@ -1,0 +1,220 @@
+{
+  "main": {
+    "id": "25a7607f9eb223e7",
+    "type": "split",
+    "children": [
+      {
+        "id": "a87f42218d48c80c",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "58600d084f5b5b99",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Reference/京程一灯前端精英班35期｜直播回看与m3u8清单.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "京程一灯前端精英班35期｜直播回看与m3u8清单"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "d9fa90ea4c90ead8",
+    "type": "split",
+    "children": [
+      {
+        "id": "82db4c33f081e326",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "d492c562eca61ca0",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "838627ac43a0fbb4",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "搜索"
+            }
+          },
+          {
+            "id": "c173ee3849ea3221",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "书签"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "8456bb944a4f3d52",
+    "type": "split",
+    "children": [
+      {
+        "id": "143622b3e53db17b",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "24f740da84cf22e5",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "反向链接"
+            }
+          },
+          {
+            "id": "abdb3960269ce346",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "出链"
+            }
+          },
+          {
+            "id": "a26c9b649c62f6e7",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "标签"
+            }
+          },
+          {
+            "id": "f114cddcd44210f6",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "添加笔记属性"
+            }
+          },
+          {
+            "id": "9e80e40be29868ba",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "大纲"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false
+    }
+  },
+  "active": "58600d084f5b5b99",
+  "lastOpenFiles": [
+    "Inbox/35期-01-35期开学典礼｜直播笔记整理.md",
+    "Reference/京程一灯前端精英班35期｜直播回看与m3u8清单.md",
+    "2026-04-10.md",
+    "Reference/Skill 设计模式与任务编排.md",
+    "Inbox/13-AIGC第二季提效讨论｜直播笔记整理.md",
+    "2026-04-01.md",
+    "2026-04-02.md",
+    "2026-04-09.md",
+    "Projects/本周待办.md",
+    "Inbox/20-Web3知识及作业安排｜直播笔记整理.md",
+    "Reference/Solidity 与合约基础.md",
+    "Inbox/21-区块链课程等讨论｜直播笔记整理.md",
+    "Inbox/19-Web3行业知识与求职｜直播笔记整理.md",
+    "Inbox/12-前端开发要点与安排｜直播笔记整理.md",
+    "Inbox/11-前端及业务等问题讨论｜直播笔记整理.md",
+    "Inbox/10-前端开发事宜讨论｜直播笔记整理.md",
+    "Inbox/09-AI技术应用研讨会｜直播笔记整理.md",
+    "Reference/前端组件库选型.md",
+    "Inbox/08-前端项目相关讨论｜直播笔记整理.md",
+    "Inbox/35期-20-走进区块链的世界②｜直播笔记整理.md",
+    "Reference/Gemini 前端工作流.md",
+    "Inbox/07-技术选型等事宜讨论｜直播笔记整理.md",
+    "Inbox/06-技术就业AWS讨论｜直播笔记整理.md",
+    "Inbox/05-全栈课程相关讨论｜直播笔记整理.md",
+    "Inbox/04-多事项讨论会议｜直播笔记整理.md",
+    "Inbox/03-前端开发相关讨论｜直播笔记整理.md",
+    "Assets/20-Web3 DApp开发从零开始.png",
+    "Projects",
+    "Reference",
+    "Inbox",
+    "未命名.canvas",
+    "未命名.base",
+    "未命名",
+    "京城一灯"
+  ]
+}
