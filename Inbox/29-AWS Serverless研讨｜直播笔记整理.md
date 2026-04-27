@@ -6,13 +6,17 @@ tags:
   - CloudFront
   - IaC
   - 云部署
+  - SSR
 aliases:
   - 29-AWS Serverless研讨｜直播笔记整理
   - 29-AWS Serverless研讨
   - AWS Serverless研讨直播笔记
-date: 2026-04-24
+  - 29附带文档整理
+  - 29-SSR与Serverless补充文档
+  - 29期 Serverless 补充文档
+date: 2026-04-26
 status: 已整理
-source: 29-AWS Serverless研讨.txt
+source: 29附带文档.md
 ---
 
 # 29-AWS Serverless研讨｜直播笔记整理
@@ -37,14 +41,15 @@ source: 29-AWS Serverless研讨.txt
 * Lambda 不是端口常驻服务，它是 `事件驱动` 的
 * Lambda 最重要的硬限制要记住：`15 分钟超时`、`50 MB zip / 250 MB 解压后`、`最多 5 层 Layers`
 * 公司里不能靠控制台手点几百个函数，必须走 `IaC`
-* 这节课最重要的落地方向就是：`AWS SAM / CDK / Terraform / SST + CI/CD`
-
-它和这些笔记是连着看的：
-
-* [[28-SSR与Serverless探讨｜直播笔记整理]]
+* 这节课最重要的落地方向就是：`AWS SAM / CDK / Terraform / SST + [[29-AWS Serverless研讨｜直播笔记整理]]-SSR与Serverless探讨｜直播笔记整理]]
+* [[29-SSR与Serverless补充文档｜整理]]
 * [[06-技术就业AWS讨论｜直播笔记整理]]
 * [[AWS基础部署链路]]
 * [[Serverless架构]]
+* [[AWS Serverless 最小架构]]
+* [[AWS Lambda]]
+* [[Lambda 冷启动]]
+* [[Serverless IaC]]
 * [[双云架构]]
 * [[Cloudflare 与 AWS 混合云架构]]
 * [[VPC 与子网]]
@@ -691,3 +696,220 @@ AWS 在这套体系里还能提供：
 * [[Cloudflare 与 AWS 混合云架构]]
 * [[VPC 与子网]]
 * [[IGW 与 NAT Gateway]]
+
+# 29-SSR与Serverless补充文档｜整理
+
+这份补充文档是在 [[29-AWS Serverless研讨｜直播笔记整理]] 之外，对 [[SSR]]、[[Serverless架构]]、[[AWS Lambda]] 和 [[Serverless IaC]] 的提纲式补充。
+
+它真正要补的不是某个 API，而是一个部署判断：
+
+> 当 SSR / Node 服务从“能跑”进入“要高并发、低成本、可观测、可降级”阶段时，部署方式就不能停留在单机或固定 ECS/EC2 上，而要认真评估 Serverless。
+
+## 1. SSR 先解决什么问题
+
+文档里把 SSR 的目的压成两类：
+
+1. `SEO / AIO`
+2. 性能
+
+`SEO / AIO` 指的是页面要能被搜索引擎、ClaudeBot、GPTBot 等抓取。以前只说 SEO，现在还要考虑 AI 检索和内容索引。相关笔记是 [[AIO 与 SEO]]。
+
+性能侧主要看 [[TTFB 与 Web Vitals]]。SSR 不是天然更快，它只是让首屏 HTML 可以更早返回；真正的效果取决于服务端渲染耗时、缓存、CDN、数据请求和部署方式。
+
+## 2. 为什么会考虑自定义 SSR
+
+默认情况下，React 项目可以先选 `Next.js`。但补充文档列了几个会逼团队考虑 [[Next.js 与自定义SSR]] 的原因：
+
+- 冷启动：项目代码变大后，Next.js 在 Serverless 场景下可能出现很重的冷启动。
+- 安全性：大框架能力多，历史高危漏洞和供应链风险也要关注。
+- 稳定性：需要能对 `4xx / 5xx` 做降级，比如回退到静态 HTML。
+- 扩展性：SRI nonce、中间件上下文、微前端、平台绑定等问题可能卡住业务。
+- 老项目迁移：例如多年 CSR / CRA 项目要补 SSR，但不想推翻重写。
+
+所以自定义 SSR 的判断标准不是“想不想炫技”，而是：
+
+```text
+框架便利性 < 冷启动 / 安全 / 稳定性 / 迁移成本 / 扩展性
+```
+
+相关笔记：
+
+- [[SSR 老项目迁移]]
+- [[边缘渲染与流式渲染]]
+- [[Lambda 冷启动]]
+
+## 3. Serverless 的核心心智
+
+补充文档里对 Serverless 的总结很实用：
+
+- 动态自动扩缩容
+- 平台托管监控、日志、容灾、告警
+- 按调用次数、CPU 计算时间、内存计费
+- 通过 IaC 快速迭代
+
+传统方式像：
+
+```text
+买 ECS / EC2 -> 部署常驻 Node 服务 -> 自己扩容 -> 自己监控
+```
+
+Serverless 更像：
+
+```text
+事件触发 -> 平台拉起函数 -> 执行业务 -> 空闲后回收
+```
+
+这解释了为什么它适合 SSR、API、Webhook、图片处理、异步任务，也解释了为什么它不适合长连接常驻、超长任务、强本地状态依赖的服务。
+
+## 4. 云厂商和平台选择
+
+补充文档提到几类平台：
+
+- [[AWS Lambda]]
+- `Cloudflare Workers`
+- `Vercel`
+- `Google Cloud Run`
+- 阿里云 `FC / Edge Routine`
+- `OpenFaaS`
+
+简单判断：
+
+| 平台 | 更适合什么 |
+| --- | --- |
+| AWS Lambda | 成熟云生态、企业级 Serverless、和 S3/CloudFront/SQS/CloudWatch 组合 |
+| Cloudflare Workers | 边缘执行、全球节点、轻量 API、边缘渲染 |
+| Vercel | Next.js / 前端团队快速上线 |
+| Google Cloud Run | 容器化 Serverless、sGTM、Google 营销数据链路 |
+| 阿里云 FC | 国内云环境 |
+| OpenFaaS | 有足够工程能力时自建 FaaS |
+
+## 5. AWS Serverless 最小架构
+
+文档列出的 AWS 组件可以整理成这条最小链路：
+
+```text
+用户
+-> CloudFront
+-> S3 静态资源
+-> API Gateway / ALB
+-> Lambda
+-> CloudWatch 日志监控
+-> SQS / MSK 异步消息
+```
+
+常见职责：
+
+- `S3`：对象存储，放静态资源。
+- `CloudFront`：CDN 和边缘分发。
+- `CloudWatch`：日志、指标、告警。
+- `AWS WAF`：防火墙和基础安全防护。
+- `API Gateway`：HTTP API 入口。
+- `ALB`：负载均衡入口。
+- `SQS / MSK`：消息队列和 Kafka 托管。
+- `Bedrock`：AI 能力入口。
+- `EC2 Auto Scaling / EKS`：不是 Serverless 核心，但常在混合架构里共存。
+
+相关卡片：[[AWS Serverless 最小架构]]。
+
+## 6. Lambda 的调用方式
+
+传统 Node 服务是：
+
+```text
+pm2 start -> 监听端口 -> 通过 IP / 域名访问
+```
+
+Lambda 是：
+
+```text
+事件 / Trigger -> 拉起函数 -> 执行 handler
+```
+
+常见触发来源：
+
+- `API Gateway`：HTTP `GET / POST / PUT / OPTIONS`
+- `S3`：对象上传后触发，比如图片压缩
+- `CloudFront / Lambda@Edge`：边缘请求处理
+- `CloudWatch / EventBridge`：定时任务、日志事件
+- `SQS`：队列消息消费
+- `MSK`：Kafka 消息消费
+
+相关卡片：[[AWS Lambda 触发器]]。
+
+## 7. Lambda 的限制要记住
+
+补充文档里最值得背的限制：
+
+- 单次调用最长 15 分钟。
+- zip 包不超过 50 MB。
+- 解压后不超过 250 MB。
+- Layers 每个函数最多 5 个。
+- Layers 也受 50 MB zip / 250 MB 解压限制。
+- 可以用自定义容器提升扩展性。
+
+这几个限制会影响 SSR 项目的依赖体积、构建产物拆分、二进制依赖、图片处理和运行时选择。
+
+## 8. Runtime 和冷启动
+
+常见 Runtime：
+
+- Node.js
+- Python
+- Go
+- Rust
+- Java
+
+冷启动的核心是：函数长时间无人调用后，平台需要重新准备运行环境、加载代码、初始化依赖。代码越大、运行时越重、初始化逻辑越多，冷启动越明显。
+
+相关卡片：[[Lambda 冷启动]]。
+
+## 9. IaC 是公司级落地前提
+
+补充文档列了四条 IaC 路线：
+
+- `AWS SAM`
+- `AWS CDK`
+- `Terraform`
+- `SST`
+
+它们解决的是同一个问题：
+
+```text
+不要手点控制台，而是用代码定义基础设施
+```
+
+公司级 Serverless 项目需要把 Lambda、API Gateway、S3、CloudFront、IAM、环境变量、日志、告警、队列等资源一起版本化和自动化部署。
+
+相关卡片：[[Serverless IaC]]。
+
+## 10. 和前端学习的关系
+
+这份文档对前端的价值在于：它把“写页面”往“应用上线和架构承载”推了一层。
+
+你需要能回答：
+
+- SSR 为什么不只是 SEO？
+- 为什么 SSR 会带来服务端压力？
+- 为什么 Serverless 适合 SSR / API？
+- Lambda 和传统 Node 服务有什么不同？
+- 冷启动为什么是面试关键词？
+- 为什么公司不能靠手点云资源？
+- 静态资源、动态渲染、异步任务分别应该放在哪里？
+
+一句话总结：
+
+> 29 期补充文档的重点是：把 SSR 从框架问题，升级成部署、扩容、成本、可观测和 IaC 的工程问题。
+
+## 相关笔记
+
+- [[29-AWS Serverless研讨｜直播笔记整理]]
+- [[28-SSR与Serverless探讨｜直播笔记整理]]
+- [[23-SSR框架技术讨论｜直播笔记整理]]
+- [[Serverless架构]]
+- [[AWS Serverless 最小架构]]
+- [[AWS Lambda]]
+- [[AWS Lambda 触发器]]
+- [[Lambda 冷启动]]
+- [[Serverless IaC]]
+- [[Next.js 与自定义SSR]]
+- [[边缘渲染与流式渲染]]
